@@ -1,0 +1,199 @@
+.main {
+    -fx-background-color: linear-gradient(to bottom right, #2b5876, #4e4376);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-width: 1.5;
+    -fx-border-color: rgba(255,255,255,0.35);
+}
+
+.main.docked {
+    -fx-background-radius: 18 0 0 18;
+    -fx-border-radius: 18 0 0 18;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: rgba(255,255,255,0.5);
+}
+
+.title-bar {
+    -fx-padding: 0 5;
+}
+
+.title-bar Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-min-width: 45;
+    -fx-min-height: 30;
+    -fx-background-radius: 0;
+}
+
+.title-bar Button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.title-bar .icon-button {
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.title-bar .icon-button ImageView {
+    -fx-opacity: 0.8;
+}
+
+.title-bar .icon-button:hover ImageView {
+    -fx-opacity: 1.0;
+}
+#titleField{
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+#closeButton:hover {
+    -fx-background-color: #e81123;
+    -fx-text-fill: white;
+}
+
+#listBtn {
+    -fx-padding: 0 10;
+    -fx-font-size: 24px;
+}
+
+.note-button {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-padding: 15 20;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.note-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-border-color: rgba(255, 255, 255, 0.4);
+}
+
+#noteContainer {
+    -fx-background-color: transparent;
+    -fx-spacing: 12;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0 5 0 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-width: 12;
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-background-radius: 20;
+    -fx-background-insets: 2 4;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: white;
+}
+
+.scroll-pane .increment-button, 
+.scroll-pane .decrement-button {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: transparent;
+}
+
+#dockBtn {
+    -fx-padding: 2 5;
+    -fx-font-size: 12px;
+}
+#textSylers{
+    -fx-background-color: transparent;
+    
+
+
+}
+
+#TB{
+     -fx-background-color: transparent;
+}
+
+#slider .slider .axis {
+    -fx-tick-label-fill: white;
+    -fx-tick-label-gap: 8px;
+    -fx-font-size: 13px;
+}
+
+/* White Tick Marks */
+#slider .slider .axis .axis-tick-mark {
+    -fx-stroke: white;
+}
+
+#textStyler {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+    /* Use padding to create a uniform click area around the small icon */
+    -fx-padding: 8px; 
+}
+
+#textStyler:hover {
+    /* A subtle highlight when hovering */
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+#textStyler:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+/* Styling the RichTextFX Area */
+.styled-text-area {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+
+.virtualized-scroll-pane {
+    -fx-background-color: transparent;
+}
+
+
+.styled-text-area .text {
+    -fx-fill: white;
+}
+
+
+#titleField {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-border-color: rgba(255,255,255,0.2);
+    -fx-border-width: 1 1 1 1; 
+    -fx-border-radius: 10;
+}

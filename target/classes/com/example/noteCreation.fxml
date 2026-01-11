@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="mainRoot" alignment="TOP_CENTER" spacing="15.0" styleClass="main" stylesheets="@noteList.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.noteCreationController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="10" />
+    </padding>
+
+    <children>
+        <HBox fx:id="titleBar" alignment="CENTER_LEFT" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" spacing="5.0" styleClass="title-bar">
+            <children>
+                <Button fx:id="listBtn" focusTraversable="false" onAction="#switchToNoteList" styleClass="icon-button" text="≡" />
+                <Button fx:id="dockBtn" focusTraversable="false" onAction="#apearOnTop" styleClass="icon-button" text="🔒" />
+                
+                <VBox fx:id="slideContainer" alignment="CENTER_LEFT">
+                    <children>
+                        <Button id="textSylers" onAction="#handleSlider">
+                            <graphic>
+                                <ImageView fitHeight="25" fitWidth="25">
+                                    <image><Image url="@images/textSize.png" /></image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <VBox fx:id="slider" />
+                    </children>
+                </VBox>
+                <Button id="textSylers" onAction="#handleBold" style="-fx-font-weight: bold;" text="B" />
+
+                <Region HBox.hgrow="ALWAYS" />
+                <Button focusTraversable="false" onAction="#minimizeWindow" text="—" />
+                <Button fx:id="closeButton" focusTraversable="false" onAction="#closeWindow" text="✕" />
+            </children>
+        </HBox>
+
+        <TextField fx:id="titleField" promptText="Enter Title..." style="-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.5); -fx-background-radius: 10; -fx-font-size: 16px;" />
+        
+        <VBox fx:id="editorContainer" VBox.vgrow="ALWAYS" />
+    </children>
+</VBox>
