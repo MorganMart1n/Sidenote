@@ -1,7 +1,7 @@
 # Sidenote
-Is an integrated note taking application, with the idea of making everything FREE and Accessable. With fully customisable modular blocks that allows for note taking how you want. 
+Sidenote is an all-in-one, integrated note-taking ecosystem built on the belief that productivity tools should be both completely free and universally accessible.
 
-With optin and opt out features at installation. Its entirely up to you to dictate, what your system and you're productivity pipe-line looks like
+Featuring a modular, block-based architecture, Sidenote allows you to build a workspace that adapts to your brain—not the other way around. With a highly customizable installation process, you decide exactly which features to include, giving you total control over your system and your productivity pipeline.
 
 
 
