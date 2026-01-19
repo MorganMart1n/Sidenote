@@ -32,6 +32,7 @@ public class noteListController {
 private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
 
     @FXML
+    //At startup load files
     public void initialize() {
         try {
             if (!Files.exists(notesPath)) {
@@ -47,7 +48,7 @@ private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
 
         loadNotes();
     }
-
+    //Load each index and get the relevant id 
     private void loadNotes() {
         AtomicInteger index = new AtomicInteger(0);
         try (Stream<Path> stream = Files.list(notesPath)) {
@@ -59,14 +60,14 @@ private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
                     return (dotIdx == -1) ? fileName : fileName.substring(0, dotIdx);
                 })
                 .collect(Collectors.toMap(name -> index.incrementAndGet(), name -> name));
-            
+            //Implement on GUI
             FillGUI(fileMap);
         } catch (Exception e) {
             System.err.println("Could not load notes from: " + notesPath.toAbsolutePath());
             e.printStackTrace();
         }
     }
-
+    //Add onto GUI
     private void FillGUI(Map<Integer, String> fileMap) {
         noteContainer.getChildren().clear();
         if (fileMap.isEmpty()) {
@@ -75,7 +76,7 @@ private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
             noteContainer.getChildren().add(emptyLabel);
             return;
         }
-
+        //Loop entry map id + name
         for (Map.Entry<Integer, String> entry : fileMap.entrySet()) {
             String fileName = entry.getValue();
             Label label = new Label(fileName);
@@ -87,8 +88,6 @@ private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
             noteContainer.getChildren().add(label);
         }
     }
-
-
     @FXML private void closeWindow(ActionEvent event) {
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.close();

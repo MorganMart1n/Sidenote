@@ -4,13 +4,10 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,148 +19,125 @@ import org.fxmisc.richtext.model.ReadOnlyStyledDocument;
 import org.fxmisc.richtext.model.SegmentOps;
 import org.fxmisc.richtext.model.StyledDocument;
 import org.fxmisc.flowless.VirtualizedScrollPane;
-import javafx.scene.control.IndexRange;
+import javafx.scene.control.ScrollPane;
 
 public class noteCreationController {
 
-    private final String notePath = "src/main/java/com/example/Notes/";
-    
-    // Switch to RichTextFX component
-    private InlineCssTextArea contentArea = new InlineCssTextArea();
-    
-    @FXML private TextField titleField;
-    @FXML private HBox titleBar;
-    @FXML private VBox mainRoot;
-    @FXML private VBox editorContainer; 
-    @FXML private VBox slider;
+    private final static String notePath = "src/main/java/com/example/Notes/";
 
-    private String noteName = "Untitled";
-    private Slider slide = new Slider(10, 50, 14);
-    private boolean isSliderVisible = false;
-    private String currentTextStyle = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14pt; -fx-fill: white;";
+    // Switch to RichTextFX component
+    private static InlineCssTextArea contentArea = new InlineCssTextArea();
+
+    @FXML
+    private TextField titleField;
+    @FXML
+    private HBox titleBar;
+    @FXML
+    private VBox mainRoot;
+    @FXML
+    private VBox editorContainer;
+    @FXML
+    private VBox inside;
+
+    @FXML
+    private VBox slider;
+
+    private static String noteName = "Untitled";
+
+    private richTextStyler textStyler;
 
     @FXML
     public void initialize() {
+
+        textStyler = new richTextStyler(contentArea, slider, noteCreationController::saveContent);
         setupRichEditor();
-        setupSliderLogic();
 
         Platform.runLater(() -> {
-            if (mainRoot != null) WindowResizer.makeResizable(mainRoot, titleBar, 400, 500);
+            if (mainRoot != null)
+                WindowResizer.makeResizable(mainRoot, titleBar, 400, 500);
             titleField.requestFocus();
         });
-
         titleField.textProperty().addListener((obs, oldV, newV) -> {
             if (newV != null && !newV.trim().isEmpty()) {
                 noteName = newV.trim();
-      
             }
         });
 
-contentArea.richChanges()
-    .filter(ch -> !ch.isIdentity())
-    .subscribe(change ->{
-
-    saveContent();
-
-    if (change.getInserted().length() == 1 && change.getRemoved().length() == 0) {
-        int start = change.getPosition();
-        int end = start + 1;
-        Platform.runLater(() -> 
-            contentArea.setStyle(start, end, currentTextStyle)
-        );
-    }
-});
     }
 
     private void setupRichEditor() {
         VirtualizedScrollPane<InlineCssTextArea> vsPane = new VirtualizedScrollPane<>(contentArea);
+        contentArea.setWrapText(true);
+        vsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        vsPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        vsPane.getStyleClass().add("scroll-pane");
         VBox.setVgrow(vsPane, Priority.ALWAYS);
         editorContainer.getChildren().add(vsPane);
         contentArea.setFocusTraversable(true);
-        // Initial style for new notes change incase
-        contentArea.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14pt; -fx-fill: white;");
+        contentArea.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 12pt; -fx-fill: white;");
     }
 
-    private void setupSliderLogic() {
-        slide.setOrientation(Orientation.HORIZONTAL);
-        slide.setShowTickLabels(true);
-        slide.setFocusTraversable(false);
-
-        slide.valueProperty().addListener((obs, oldVal, newVal) -> {
-            String newSize = "-fx-font-size: " + newVal.intValue() + "pt;";
-            currentTextStyle = currentTextStyle.replaceAll("-fx-font-size: \\d+pt;", "").trim() + " " + newSize;
-
-            IndexRange selection = contentArea.getSelection();
-            if (selection.getLength() > 0) {
-                contentArea.setStyle(selection.getStart(), selection.getEnd(), currentTextStyle);
-            }
-            contentArea.requestFocus();
-        });
-    }
-
-    private void saveContent() {
+    public static void saveContent() {
         File file = new File(notePath, noteName);
-        
+
         // Define the Codec for Rich Text
-        Codec<StyledDocument<String, String, String>> codec =
-            ReadOnlyStyledDocument.codec(
+        Codec<StyledDocument<String, String, String>> codec = ReadOnlyStyledDocument.codec(
                 Codec.STRING_CODEC,
                 Codec.styledTextCodec(Codec.STRING_CODEC),
-                SegmentOps.styledTextOps()
-            );
+                SegmentOps.styledTextOps());
 
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-            //Encodes
+
             codec.encode(dos, contentArea.getDocument());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Integrated Custom titlebar Logic
     @FXML
-    private void handleBold() {
-        if (currentTextStyle.contains("-fx-font-weight: bold")) {
-            currentTextStyle = currentTextStyle.replace("-fx-font-weight: bold;", "").trim();
-        } else {
-            currentTextStyle += " -fx-font-weight: bold;";
-        }
-        
-        IndexRange selection = contentArea.getSelection();
-        if (selection.getLength() > 0) {
-            contentArea.setStyle(selection.getStart(), selection.getEnd(), currentTextStyle);
-        }
-        contentArea.requestFocus();
-    }
-
-    @FXML
-    public void handleSlider(ActionEvent event) {
-        if (isSliderVisible) {
-            slider.getChildren().clear();
-            isSliderVisible = false;
-        } else {
-            if (!slider.getChildren().contains(slide)) {
-                slider.getChildren().add(slide);
-            }
-            isSliderVisible = true;
-        }
-        contentArea.requestFocus();
-    }
-
-    @FXML private void closeWindow(ActionEvent event) {
+    private void closeWindow(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
-    @FXML public void apearOnTop(ActionEvent event) {
+    @FXML
+    public void apearOnTop(ActionEvent event) {
         ApearOnTop.apearOnTop(event);
     }
 
-    @FXML private void minimizeWindow(ActionEvent event) {
+    @FXML
+    public void handleBold(ActionEvent event) {
+        textStyler.applyBold();
+        saveContent();
+    }
+
+    @FXML
+    public void handleSlider(ActionEvent event) {
+        textStyler.applySlider();
+        saveContent();
+    }
+
+    @FXML
+    public void handleBulletPoint(ActionEvent event) {
+        textStyler.applyBulletPoint();
+        saveContent();
+    }
+
+    @FXML
+    public void handleItalic(ActionEvent event) {
+        textStyler.applyItalic();
+        saveContent();
+    }
+
+    @FXML
+    private void minimizeWindow(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
 
-    @FXML private void switchToNoteList() throws IOException {
+    @FXML
+    private void switchToNoteList() throws IOException {
         App.setRoot("noteList");
     }
 }

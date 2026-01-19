@@ -38,7 +38,14 @@
             </graphic>
         </Button>
         
-        <Button fx:id="dockBtn" onAction="#apearOnTop" text="🔒" focusTraversable="false" styleClass="icon-button" />
+        <Button fx:id="dockBtn" focusTraversable="false" onAction="#apearOnTop" styleClass="icon-button">
+                <graphic>
+                        <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
+                         <image>
+                        <Image url="@images/lock.png" /> </image>
+                    </ImageView>
+                </graphic>
+        </Button>
 
         <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
 
