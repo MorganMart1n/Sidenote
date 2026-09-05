@@ -1,0 +1,467 @@
+/* ============================================================
+   base.css
+   ------------------------------------------------------------
+   This file owns LAYOUT, SHAPE and STRUCTURE only.
+   It never hardcodes a colour. Every colour is a CSS variable
+   (a JavaFX "looked-up colour") with a safe fallback here in
+   .root. A palette (Default.css, CyberpunkBlue.css, a
+   StickyYellow.css, etc.) only needs to re-declare the
+   variables it wants to change — it never has to repeat any
+   of the layout rules below.
+
+   The same trick powers the custom colour picker: instead of
+   loading a palette file at all, ThemeManager computes these
+   same variable names from the colour the user picked and sets
+   them as an *inline* style on the scene root. Inline style
+   always wins over stylesheet values, so no palette file is
+   required for a fully custom colour.
+
+   Variable contract (every palette must define these, or the
+   fallback below is used):
+     -note-bg-start        gradient start (top-left)
+     -note-bg-end          gradient end (bottom-right)
+     -note-border           outer border colour
+     -note-text             primary text colour
+     -note-text-muted       secondary/placeholder text colour
+     -note-accent           bright "brand" colour for this theme
+                             (used for the title bar icons, focus
+                             rings, sliders, links)
+     -note-control-bg       translucent fill for buttons/fields
+     -note-control-bg-hover hover fill for buttons/fields
+     -note-control-border   border for buttons/fields
+     -note-glow             optional dropshadow colour (rgba).
+                             Set to `transparent` for flat themes.
+     -note-scrollbar-thumb  scrollbar thumb colour
+   ============================================================ */
+
+.root {
+    -note-bg-start: #2b5876;
+    -note-bg-end: #4e4376;
+    -note-border: rgba(255,255,255,0.35);
+    -note-text: white;
+    -note-text-muted: rgba(255,255,255,0.6);
+    -note-accent: white;
+    -note-control-bg: rgba(255,255,255,0.1);
+    -note-control-bg-hover: rgba(255,255,255,0.2);
+    -note-control-border: rgba(255,255,255,0.25);
+    -note-glow: transparent;
+    -note-scrollbar-thumb: rgba(255,255,255,0.6);
+}
+
+/* ==================== Window shell ==================== */
+.main {
+    -fx-background-color: linear-gradient(to bottom right, -note-bg-start, -note-bg-end);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-width: 1.5;
+    -fx-border-color: -note-border;
+    -fx-effect: dropshadow(gaussian, -note-glow, 20, 0, 0, 0);
+}
+
+.main.docked {
+    -fx-background-radius: 18 0 0 18;
+    -fx-border-radius: 18 0 0 18;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: -note-accent;
+}
+
+/* ==================== Title bar ==================== */
+.title-bar {
+    -fx-padding: 0 5;
+}
+
+.title-bar Button {
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-background-color: transparent;
+    -fx-text-fill: -note-accent;
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.title-bar Button:hover {
+    -fx-background-color: derive(-note-accent, 85%);
+    -fx-border-color: -note-accent;
+    -fx-effect: dropshadow(gaussian, -note-glow, 10, 0, 0, 0);
+}
+
+#dockBtn {
+    -fx-padding: 0;
+}
+
+#textSylers {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -note-accent;
+    -fx-effect: dropshadow(gaussian, -note-glow, 10, 0, 0, 0);
+}
+
+.title-bar Button ImageView {
+    -fx-smooth: true;
+    -fx-cache: true;
+}
+
+#closeButton:hover {
+    -fx-background-color: #e81123;
+    -fx-border-color: transparent !important;
+    -fx-effect: dropshadow(gaussian, rgba(232,17,35,0.6), 12, 0, 0, 0);
+}
+
+.title-bar Button:nth-last-child(2):hover {
+    -fx-border-color: transparent !important;
+}
+
+#listBtn {
+    -fx-font-size: 20px;
+    -fx-text-fill: -note-accent;
+}
+
+/* ==================== Bottom formatting toolbar ====================
+   Matches the Sticky Notes screenshot: a row of small icon buttons
+   (B / I / U / S / list) hugging the left, a "Screenshot" pill button
+   hugging the right, all sitting in a slightly raised rounded strip. */
+.bottom-toolbar {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1;
+    -fx-padding: 8 10;
+    -fx-spacing: 4;
+}
+
+.toolbar-icon-button {
+    -fx-min-width: 34px;
+    -fx-max-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-height: 34px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-text-fill: -note-text;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.toolbar-icon-button:hover {
+    -fx-background-color: -note-control-bg-hover;
+}
+
+.toolbar-icon-button:armed,
+.toolbar-icon-button:selected {
+    -fx-background-color: derive(-note-accent, 70%);
+    -fx-text-fill: -note-accent;
+}
+
+.screenshot-button {
+    -fx-background-color: -note-control-bg;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-text-fill: -note-text;
+    -fx-font-size: 13px;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+
+.screenshot-button:hover {
+    -fx-background-color: -note-control-bg-hover;
+    -fx-border-color: -note-accent;
+}
+
+/* ==================== Title field ==================== */
+#titleField {
+    -fx-background-color: -note-control-bg;
+    -fx-text-fill: -note-text;
+    -fx-prompt-text-fill: -note-text-muted;
+    -fx-background-radius: 8;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+}
+
+/* ==================== Text input caret/selection ==================== */
+.text-input {
+    -fx-caret-color: -note-accent;
+}
+
+.text-input .selection {
+    -fx-background-color: derive(-note-accent, -40%);
+}
+
+.text-input:focused .text {
+    -fx-fill: -note-text;
+}
+
+.text-field:focused,
+.text-area:focused,
+.styled-text-area:focused {
+    -fx-faint-focus-color: transparent;
+    -fx-focus-color: -note-accent;
+}
+
+/* ==================== Note-list buttons ==================== */
+.note-button {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 12;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-padding: 15 20;
+    -fx-text-fill: -note-text;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.note-button:hover {
+    -fx-background-color: -note-control-bg-hover;
+    -fx-border-color: -note-accent;
+}
+
+/* ==================== Scrollbars (shared shape) ==================== */
+.virtualized-scroll-pane,
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.virtualized-scroll-pane .viewport,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.virtualized-scroll-pane .scroll-bar:vertical,
+.scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 1;
+    -fx-background-color: transparent;
+    -fx-width: 6px;
+}
+
+.virtualized-scroll-pane .scroll-bar:vertical .track,
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: derive(-note-scrollbar-thumb, -60%);
+    -fx-background-radius: 3px;
+}
+
+.virtualized-scroll-pane .scroll-bar:vertical .thumb,
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: -note-scrollbar-thumb;
+    -fx-background-radius: 3px;
+}
+
+.virtualized-scroll-pane .scroll-bar:vertical .thumb:hover,
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(-note-scrollbar-thumb, 20%);
+}
+
+.virtualized-scroll-pane .scroll-bar:vertical .thumb:pressed,
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: derive(-note-scrollbar-thumb, 40%);
+}
+
+/* ==================== Editor ==================== */
+.styled-text-area {
+    -fx-background-color: -note-control-bg;
+    -fx-text-fill: -note-text;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14pt;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: -note-border;
+    -fx-border-width: 1.5;
+    -fx-padding: 12;
+}
+
+.styled-text-area .text {
+    -fx-fill: -note-text;
+}
+
+/* ==================== Slider ==================== */
+.slider .track {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 5;
+    -fx-pref-height: 4px;
+}
+
+.slider .thumb {
+    -fx-background-color: -note-accent;
+    -fx-background-radius: 50%;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(three-pass-box, -note-glow, 5, 0, 0, 0);
+}
+
+.slider .thumb:hover {
+    -fx-background-color: derive(-note-accent, 20%);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: -note-text-muted;
+    -fx-font-size: 12px;
+    -fx-tick-length: 5;
+}
+
+.slider .axis-tick-mark {
+    -fx-stroke: -note-control-border;
+}
+
+/* ==================== Settings page buttons ==================== */
+.primary-button {
+    -fx-background-color: -note-control-bg-hover;
+    -fx-text-fill: -note-text;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1.5;
+    -fx-padding: 12 24;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
+    -fx-max-width: 200px;
+}
+
+.primary-button:hover {
+    -fx-background-color: derive(-note-control-bg-hover, 20%);
+}
+
+.section-button {
+    -fx-background-color: -note-control-bg;
+    -fx-text-fill: -note-text;
+    -fx-font-size: 16px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -note-control-border;
+    -fx-border-width: 1;
+    -fx-padding: 10 20;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-max-width: 200px;
+}
+
+.section-button:hover {
+    -fx-background-color: -note-control-bg-hover;
+}
+
+.settings-section {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-spacing: 8;
+}
+
+.settings-group {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -note-control-border;
+    -fx-padding: 18;
+}
+
+.settings-title {
+    -fx-text-fill: -note-text;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, -note-glow, 10, 0, 0, 0);
+}
+
+.settings-subtitle {
+    -fx-text-fill: -note-text-muted;
+    -fx-font-size: 13px;
+}
+
+.theme-dropdown {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -note-control-border;
+    -fx-padding: 8 18;
+    -fx-text-fill: -note-text;
+    -fx-font-size: 14px;
+}
+
+.theme-dropdown:hover {
+    -fx-background-color: -note-control-bg-hover;
+}
+
+.theme-dropdown .label {
+    -fx-text-fill: -note-text;
+    -fx-font-weight: bold;
+}
+
+.context-menu {
+    -fx-background-color: derive(-note-bg-end, -10%);
+    -fx-background-radius: 14;
+    -fx-border-color: -note-control-border;
+    -fx-border-radius: 14;
+    -fx-padding: 6;
+    -fx-text-fill: -note-text;
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 8 16;
+    -fx-text-fill: -note-text;
+}
+
+.menu-item .label {
+    -fx-text-fill: -note-text;
+}
+
+.menu-item:focused,
+.menu-item:hover {
+    -fx-background-color: -note-control-bg-hover;
+    -fx-background-radius: 8;
+}
+
+/* ==================== Colour swatch buttons (settings page) ====================
+   Used for the one-click preset swatches AND as the small preview circle
+   next to the custom ColorPicker. Each swatch button sets its own
+   -fx-background-color inline (it needs to show the real preset colour,
+   not the current theme's colour) — this class only supplies the shape. */
+.swatch-button {
+    -fx-min-width: 34px;
+    -fx-max-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-height: 34px;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-border-width: 2px;
+    -fx-border-color: rgba(255,255,255,0.4);
+    -fx-cursor: hand;
+}
+
+.swatch-button:hover {
+    -fx-border-color: white;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+.color-picker {
+    -fx-background-color: -note-control-bg;
+    -fx-background-radius: 10;
+    -fx-border-color: -note-control-border;
+    -fx-border-radius: 10;
+    -fx-padding: 2;
+}
+
+.color-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.color-picker .label {
+    -fx-text-fill: -note-text;
+}

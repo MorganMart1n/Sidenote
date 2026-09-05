@@ -2,6 +2,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
@@ -23,7 +24,7 @@
    <VBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="40.0" minHeight="40.0" maxHeight="40.0" spacing="5.0" styleClass="title-bar">
     <children>
         <HBox spacing="5.0" alignment="CENTER_LEFT"> <Button fx:id="listBtn" text="≡" onAction="#switchToNoteList" styleClass="icon-button"/>
-            
+
             <Region HBox.hgrow="ALWAYS"/>
             <Button onAction="#minimizeWindow" text="—" />
             <Button fx:id="closeButton" onAction="#closeWindow" text="✕" />
@@ -44,7 +45,7 @@
               alignment="TOP_CENTER"
               spacing="20">
 
-            <!-- Appearance -->
+            <!-- Appearance: bundled theme stylesheets -->
             <VBox spacing="8"
                   alignment="CENTER_LEFT"
                   styleClass="settings-group">
@@ -54,19 +55,20 @@
 
                 <Label text="Choose application theme"
                        styleClass="settings-subtitle"/>
-            
+
                 <MenuButton fx:id="themeMenu"
-                            text="Cyberpunk"
+                            text="Default"
                             styleClass="theme-dropdown">
 
                     <items>
-                    <!--Add more themes here-->
-                    <MenuItem text="Default"
+                        <!--Add more themes here-->
+                        <MenuItem text="Default"
                                   onAction="#switchToDefault"/>
+                        <MenuItem text="Twilight"
+                                  onAction="#switchToTwilight"/>
                         <MenuItem text="Cyberpunk Blue"
                                   onAction="#switchToCyberpunkBlue"/>
-                   
-                    <MenuItem text="Cyberpunk Red"
+                        <MenuItem text="Cyberpunk Red"
                                   onAction="#switchToCyberpunkRed"/>
                     </items>
 
@@ -74,7 +76,75 @@
 
             </VBox>
 
-           
+            <!-- Note Colour: every swatch derives a whole theme (background gradient, text,
+                 accent, controls) from its own fixed colour via ThemeManager/ColorUtils —
+                 there are no separate crafted stylesheets behind these, only Default.css
+                 exists as a real file. Ordered light shades, then base shades, then dark
+                 shades (same 11 hues each time), then neutrals, so the FlowPane wraps into
+                 clean, evenly filled rows like a standard hex colour-picker grid rather than
+                 a sparse list. Only shown while a sticky-family theme is active — see
+                 noteSettingController#updateNoteColourVisibility. -->
+            <VBox fx:id="noteColourSection"
+                  spacing="10"
+                  alignment="CENTER_LEFT"
+                  styleClass="settings-group">
+
+                <Label text="Note Colour"
+                       styleClass="settings-title"/>
+
+                <Label text="Pick any colour — text and the title bar adapt automatically"
+                       styleClass="settings-subtitle"
+                       wrapText="true"/>
+
+                <FlowPane hgap="10" vgap="10">
+                    <!-- Light shades: Red, Orange, Yellow, Lime, Green, Teal, Cyan, Blue, Indigo, Violet, Pink -->
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f8c9c9;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #fbd9b3;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f9e58a;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #e3f2b2;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #c8e6c9;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #b2dfdb;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #b3e5fc;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #bbdefb;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #c5cae9;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #e1bee7;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f8bbd0;"/>
+
+                    <!-- Base shades: same 11 hues -->
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #e15757;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f0902e;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f2c94c;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #a8d84a;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #4caf50;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #26a69a;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #26c6da;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #1976d2;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #3f51b5;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #8e24aa;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #ec407a;"/>
+
+                    <!-- Dark shades: same 11 hues -->
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #b71c1c;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #c56a00;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #c9a227;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #7cb342;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #2e7d32;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #00695c;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #00838f;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #0d47a1;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #283593;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #6a1b9a;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #c2185b;"/>
+
+                    <!-- Neutrals -->
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #ffffff;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #f5f0e6;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #d8c3a5;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #8d6e50;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #6e6e6e;"/>
+                    <Button styleClass="swatch-button" onAction="#selectNoteColor" style="-fx-background-color: #2b2b2b;"/>
+                </FlowPane>
+            </VBox>
 
         </VBox>
 

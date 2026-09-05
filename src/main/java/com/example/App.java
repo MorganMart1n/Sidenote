@@ -16,7 +16,6 @@ import java.util.Map;
 public class App extends Application {
 
     private static Scene scene;
-    private static String currentTheme = "/com/example/css/Default.css"; // default theme
     private static Map<String, Parent> screenCache = new HashMap<>();
 
     @Override
@@ -24,10 +23,10 @@ public class App extends Application {
         Parent root = loadFXML("noteList");
 
         stage.initStyle(StageStyle.TRANSPARENT);
-        scene = new Scene(root, 640, 480); 
+        scene = new Scene(root, 640, 480);
         scene.setFill(Color.TRANSPARENT);
 
-        applyTheme();  // apply default theme
+        ThemeManager.applyTheme(scene); // apply default theme
 
         stage.setMinWidth(400);
         stage.setMinHeight(500);
@@ -36,31 +35,35 @@ public class App extends Application {
         stage.show();
     }
 
-    /** Change theme from anywhere */
-    public static void changeTheme(String themePath) {
-        currentTheme = themePath;
-        applyTheme();
+    /** Switch to one of the bundled palette stylesheets, e.g. "/com/example/css/palettes/StickyYellow.css". */
+    public static void changeTheme(String paletteResourcePath) {
+        ThemeManager.switchToPreset(paletteResourcePath);
+        ThemeManager.applyTheme(scene);
     }
 
-    /** Apply current theme to scene */
-    private static void applyTheme() {
-        if (scene != null) {
-            scene.getStylesheets().clear();
-            scene.getStylesheets().add(App.class.getResource(currentTheme).toExternalForm());
-            
-        }
+    /** Switch to a fully custom colour picked by the user. */
+    public static void changeCustomColor(Color color) {
+        ThemeManager.switchToCustomColor(color);
+        ThemeManager.applyTheme(scene);
     }
+
     public static String getThemeDisplayName() {
-        switch (currentTheme) {
+        if (ThemeManager.getMode() == ThemeManager.Mode.CUSTOM) {
+            return "Custom Colour";
+        }
+        switch (ThemeManager.getCurrentPalette()) {
             case "/com/example/css/CyberpunkBlue.css":
                 return "Cyberpunk Blue";
             case "/com/example/css/CyberpunkRed.css":
                 return "Cyberpunk Red";
+            case "/com/example/css/Twilight.css":
+                return "Twilight";
             case "/com/example/css/Default.css":
             default:
                 return "Default";
         }
     }
+
     /** Load FXML without setting */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -72,7 +75,7 @@ public class App extends Application {
         Parent root = loadFXML(fxml);
         if (scene != null) {
             scene.setRoot(root);
-            applyTheme(); // reapply theme after switching pages
+            ThemeManager.applyTheme(scene); // reapply theme after switching pages
         }
     }
 

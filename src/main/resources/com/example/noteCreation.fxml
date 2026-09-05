@@ -7,30 +7,68 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
+
 <VBox fx:id="mainRoot" alignment="TOP_LEFT" spacing="10.0" styleClass="main" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.noteCreationController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="10" />
     </padding>
 
     <children>
-        <HBox fx:id="titleBar" alignment="CENTER_LEFT" maxHeight="60.0" minHeight="50.0" spacing="5.0" styleClass="title-bar">
+        <!-- Top strip: just navigation + window controls, matching the screenshot's clean header -->
+        <HBox fx:id="titleBar" alignment="CENTER_LEFT" maxHeight="40.0" minHeight="40.0" spacing="5.0" styleClass="title-bar">
             <children>
                 <Button fx:id="listBtn" focusTraversable="false" onAction="#switchToNoteList" styleClass="icon-button" text="≡" />
                 <Button fx:id="dockBtn" focusTraversable="false" onAction="#apearOnTop" styleClass="icon-button">
-                <graphic>
-                    <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
-                        <image>
-                            <Image url="@images/lock.png" /> </image>
-                    </ImageView>
-                </graphic>
-            </Button>
-                
+                    <graphic>
+                        <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
+                            <image>
+                                <Image url="@images/lock.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <Button focusTraversable="false" onAction="#minimizeWindow" text="—" />
+                <Button fx:id="closeButton" focusTraversable="false" onAction="#closeWindow" text="✕" />
+            </children>
+        </HBox>
+
+        <TextField fx:id="titleField" promptText="Enter Title..." />
+
+        <VBox fx:id="editorContainer" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+        </VBox>
+
+        <!-- Bottom formatting toolbar: matches the Sticky Notes screenshot layout -->
+        <HBox fx:id="formatToolbar" alignment="CENTER_LEFT" spacing="4.0" styleClass="bottom-toolbar">
+            <children>
+                <Button id="textSylers" styleClass="toolbar-icon-button" onAction="#handleBold" text="B" style="-fx-font-size: 16;" />
+                <Button id="textSylers" styleClass="toolbar-icon-button" onAction="#handleItalic">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image><Image url="@images/italic.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <!-- Underline / Strikethrough / Screenshot buttons removed for now — they need
+                     matching handler methods added to noteCreationController first. See chat notes. -->
+                <Button id="textSylers" styleClass="toolbar-icon-button" onAction="#handleBulletPoint">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image><Image url="@images/list.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
                 <VBox fx:id="slideContainer" alignment="CENTER_LEFT">
                     <children>
-                        <Button id="textSylers" onAction="#handleSlider">
+                        <Button id="textSylers" styleClass="toolbar-icon-button" onAction="#handleSlider">
                             <graphic>
-                                <ImageView fitHeight="25" fitWidth="25">
+                                <ImageView fitHeight="18" fitWidth="18">
                                     <image><Image url="@images/textSize.png" /></image>
                                 </ImageView>
                             </graphic>
@@ -38,34 +76,9 @@
                         <VBox fx:id="slider" />
                     </children>
                 </VBox>
-                    <Button id="textSylers" onAction="#handleBulletPoint"> 
-                        <graphic>
-                            <ImageView fitHeight="25" fitWidth="25">
-                                    <image><Image url="@images/list.png" /></image>
-                            </ImageView>
-                    </graphic>
-                </Button>
-                 <Button id="textSylers" onAction="#handleBold" text="B" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-                <Button id="textSylers" onAction="#handleItalic"> 
-                    <graphic>
-                            <ImageView fitHeight="25" fitWidth="25">
-                                    <image><Image url="@images/italic.png" /></image>
-                            </ImageView>
-                    </graphic>
-                </Button>
+
                 <Region HBox.hgrow="ALWAYS" />
-                <Button focusTraversable="false" onAction="#minimizeWindow" text="—" />
-                <Button fx:id="closeButton" focusTraversable="false" onAction="#closeWindow" text="✕" />
             </children>
         </HBox>
-
-        <TextField fx:id="titleField" promptText="Enter Title..." 
-           style="-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-prompt-text-fill: rgba(255,255,255,0.5); -fx-background-radius: 10; -fx-font-size: 16px;" />
-
-            <VBox fx:id="editorContainer" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                </VBox.margin>
-            </VBox>
     </children>
 </VBox>
