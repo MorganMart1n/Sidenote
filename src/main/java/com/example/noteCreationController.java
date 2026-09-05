@@ -46,15 +46,18 @@ public class noteCreationController {
 
     private richTextStyler textStyler;
 
+    private Boolean isInitalised = false;
+
     @FXML
     public void initialize() {
-
+   
         textStyler = new richTextStyler(contentArea, slider, noteCreationController::saveContent);
         setupRichEditor();
 
         Platform.runLater(() -> {
             if (mainRoot != null)
                 WindowResizer.makeResizable(mainRoot, titleBar, 400, 500);
+                isInitalised = true;
             titleField.requestFocus();
         });
         titleField.textProperty().addListener((obs, oldV, newV) -> {
@@ -62,35 +65,45 @@ public class noteCreationController {
                 noteName = newV.trim();
             }
         });
-
+     
     }
 
     private void setupRichEditor() {
-        VirtualizedScrollPane<InlineCssTextArea> vsPane = new VirtualizedScrollPane<>(contentArea);
-        contentArea.setWrapText(true);
-        vsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        vsPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        vsPane.getStyleClass().add("scroll-pane");
-        VBox.setVgrow(vsPane, Priority.ALWAYS);
-        editorContainer.getChildren().add(vsPane);
-        contentArea.setFocusTraversable(true);
-        contentArea.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 12pt; -fx-fill: white;");
-    }
+    VirtualizedScrollPane<InlineCssTextArea> vsPane = new VirtualizedScrollPane<>(contentArea);
+    contentArea.setWrapText(true);
+
+    // seamless style
+    contentArea.setStyle(
+        "-fx-background-color: transparent; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-family: 'Segoe UI'; " +
+        "-fx-font-size: 14pt;"
+    );
+
+    vsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    vsPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+    VBox.setVgrow(vsPane, Priority.ALWAYS);
+    editorContainer.getChildren().add(vsPane);
+    contentArea.setFocusTraversable(true);
+}
 
     public static void saveContent() {
+        //Maybe change due to exact string refs not being good practice
+        if (noteName != "Untitled" && contentArea.getText() != null) {
+        
         File file = new File(notePath, noteName);
-
         // Define the Codec for Rich Text
         Codec<StyledDocument<String, String, String>> codec = ReadOnlyStyledDocument.codec(
                 Codec.STRING_CODEC,
                 Codec.styledTextCodec(Codec.STRING_CODEC),
                 SegmentOps.styledTextOps());
-
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-
             codec.encode(dos, contentArea.getDocument());
+            
         } catch (IOException e) {
             e.printStackTrace();
+        }
         }
     }
 
@@ -138,6 +151,8 @@ public class noteCreationController {
 
     @FXML
     private void switchToNoteList() throws IOException {
+        titleField.clear();
+        contentArea.clear();
         App.setRoot("noteList");
     }
 }

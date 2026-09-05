@@ -7,5 +7,10 @@ module com.example {
     requires transitive org.fxmisc.richtext;
     requires org.fxmisc.flowless;
     requires reactfx;
- 
-    opens com.example to javafx.fxml; exports com.example; }
+
+    opens com.example to javafx.fxml; 
+
+    opens com.example.css to javafx.graphics; 
+
+    exports com.example; 
+}

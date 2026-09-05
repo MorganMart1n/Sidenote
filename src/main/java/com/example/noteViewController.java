@@ -70,23 +70,27 @@ public class noteViewController {
                 renameNoteFile(titleField.getText());
             }
         });
-
     }
 
     private void setupRichEditor() {
-        VirtualizedScrollPane<InlineCssTextArea> vsPane = new VirtualizedScrollPane<>(contentArea);
+    VirtualizedScrollPane<InlineCssTextArea> vsPane = new VirtualizedScrollPane<>(contentArea);
+    contentArea.setWrapText(true);
 
-        contentArea.setWrapText(true);
-        vsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        vsPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    // seamless style
+    contentArea.setStyle(
+        "-fx-background-color: transparent; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-family: 'Segoe UI'; " +
+        "-fx-font-size: 14pt;"
+    );
 
-        VBox.setVgrow(vsPane, Priority.ALWAYS);
-        editorContainer.getChildren().add(vsPane);
+    vsPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    vsPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        contentArea.setFocusTraversable(true);
-        contentArea.setStyle(currentTextStyle);
-    }
-
+    VBox.setVgrow(vsPane, Priority.ALWAYS);
+    editorContainer.getChildren().add(vsPane);
+    contentArea.setFocusTraversable(true);
+}
     public void findAndLoad(String noteToFind) {
         File file = new File(notePath, noteToFind);
         currentFileName = noteToFind;
@@ -101,90 +105,73 @@ public class noteViewController {
                         SegmentOps.styledTextOps());
 
                 StyledDocument<String, String, String> doc = codec.decode(dis);
-
                 internalChange = true;
                 contentArea.replace(0, contentArea.getLength(), doc);
                 internalChange = false;
-
             } catch (IOException e) {
                 contentArea.replaceText("");
             }
         } else {
             contentArea.replaceText("");
         }
-
         Platform.runLater(() -> contentArea.requestFocus());
     }
 
     private static void saveContent() {
-
         File file = new File(notePath, currentFileName);
-
         Codec<StyledDocument<String, String, String>> codec = ReadOnlyStyledDocument.codec(
                 Codec.STRING_CODEC,
                 Codec.styledTextCodec(Codec.STRING_CODEC),
                 SegmentOps.styledTextOps());
-
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
             codec.encode(dos, contentArea.getDocument());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     private void renameNoteFile(String newTitle) {
         if (newTitle == null || newTitle.isBlank() ||
                 newTitle.equals(currentFileName))
             return;
-
         File oldFile = new File(notePath, currentFileName);
         File newFile = new File(notePath, newTitle);
-
         if (oldFile.renameTo(newFile)) {
             currentFileName = newTitle;
             selectedNoteName = newTitle;
         }
     }
-
     @FXML
     public void handleBold(ActionEvent event) {
         textStyler.applyBold();
         saveContent();
     }
-
     @FXML
     public void handleSlider(ActionEvent event) {
         textStyler.applySlider();
         saveContent();
     }
-
     @FXML
     public void handleBulletPoint(ActionEvent event) {
         textStyler.applyBulletPoint();
         saveContent();
     }
-
     @FXML
     public void handleItalic(ActionEvent event) {
         textStyler.applyItalic();
         saveContent();
     }
-
     @FXML
     private void closeWindow(ActionEvent event) {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
-
     @FXML
     private void minimizeWindow(ActionEvent event) {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).setIconified(true);
     }
-
     @FXML
     public void apearOnTop(ActionEvent event) {
         ApearOnTop.apearOnTop(event);
     }
-
     @FXML
     private void switchToNoteList(ActionEvent event) throws IOException {
         App.setRoot("noteList");

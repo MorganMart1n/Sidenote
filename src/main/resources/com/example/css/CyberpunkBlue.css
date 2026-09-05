@@ -1,0 +1,407 @@
+.main {
+    -fx-background-color: linear-gradient(to bottom right, #0a1a24, #0f2a3a, #14384f);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-width: 1.5;
+    -fx-border-color: rgba(0, 229, 255, 0.6);
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.3), 20, 0, 0, 0);
+}
+
+.main.docked {
+    -fx-background-radius: 18 0 0 18;
+    -fx-border-radius: 18 0 0 18;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: rgba(0, 229, 255, 0.9);
+}
+
+.title-bar {
+    -fx-padding: 0 5;
+}
+
+.title-bar Button {
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0ffff;
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.title-bar Button:hover {
+    -fx-background-color: rgba(0, 229, 255, 0.15);
+    -fx-border-color: rgba(0, 229, 255, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.7), 10, 0, 0, 0);
+}
+
+#dockBtn {
+    -fx-padding: 0;
+}
+
+#textSylers {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00e5ff;
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.8), 10, 0, 0, 0);
+}
+
+.title-bar Button ImageView {
+    -fx-smooth: true;
+    -fx-cache: true;
+}
+
+#closeButton:hover {
+    -fx-background-color: #ff1744;
+    -fx-border-color: transparent !important;
+    -fx-effect: dropshadow(gaussian, rgba(255,23,68,0.9), 12, 0, 0, 0);
+}
+
+.title-bar Button:nth-last-child(2):hover {
+    -fx-border-color: transparent !important;
+}
+
+#listBtn {
+    -fx-font-size: 20px;
+    -fx-text-fill: #00e5ff;
+}
+
+#titleField {
+    -fx-background-color: rgba(0, 229, 255, 0.08);
+    -fx-text-fill: #e0ffff;
+    -fx-background-radius: 8;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-border-color: rgba(0,229,255,0.5);
+    -fx-border-width: 1; 
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.5), 8, 0, 0, 0);
+}
+
+/* ========================= */
+/*  TEXT INPUT FIXES HERE   */
+/* ========================= */
+
+/* Caret (blinking cursor) */
+.text-input {
+    -fx-caret-color: #00e5ff;
+}
+
+/* Selection background */
+.text-input .selection {
+    -fx-background-color: rgba(0, 229, 255, 0.45);
+}
+
+/* Selected text color */
+.text-input:focused .text {
+    -fx-fill: #e0ffff;
+}
+
+/* Focus ring removal + neon focus */
+.text-field:focused,
+.text-area:focused,
+.styled-text-area:focused {
+    -fx-faint-focus-color: transparent;
+    -fx-focus-color: rgba(0, 229, 255, 0.9);
+}
+
+/* ========================= */
+
+.note-button {
+    -fx-background-color: rgba(0, 229, 255, 0.08);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(0, 229, 255, 0.5);
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-padding: 15 20;
+    -fx-text-fill: #e0ffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.note-button:hover {
+    -fx-background-color: rgba(0, 229, 255, 0.18);
+    -fx-border-color: rgba(0, 229, 255, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.7), 10, 0, 0, 0);
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-viewport-background: transparent;
+    -fx-padding: 0 2 0 0;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-width: 8px;
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 229, 255, 0.5);
+    -fx-background-radius: 20;
+    -fx-background-insets: 0 1 0 1;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(0, 229, 255, 0.8);
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: rgba(0, 229, 255, 1.0);
+}
+
+.scroll-pane .increment-button, 
+.scroll-pane .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-shape: "";
+}
+
+.scroll-pane .corner {
+    -fx-background-color: transparent;
+}
+
+.styled-text-area {
+    -fx-background-color: rgba(0, 229, 255, 0.06);  /* lighter, blue-tinted */
+    -fx-text-fill: #e0ffff;
+    -fx-font-size: 14px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(0, 229, 255, 0.4);
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+
+.styled-text-area .text {
+    -fx-fill: #e0ffff;
+}
+
+.slider .track {
+    -fx-background-color: rgba(0, 229, 255, 0.4);
+    -fx-background-radius: 5;
+    -fx-pref-height: 4px;
+}
+
+.slider .thumb {
+    -fx-background-color: #00e5ff;
+    -fx-background-radius: 50%;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,229,255,0.9), 8, 0, 0, 0);
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #4ffcff;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: rgba(224, 255, 255, 0.9);
+    -fx-font-size: 12px;
+    -fx-tick-length: 5;
+}
+
+.slider .axis-tick-mark {
+    -fx-stroke: rgba(0, 229, 255, 0.5);
+}
+
+#changeSheet{
+    -fx-background-color: #4d6877;
+}
+
+
+/* =======================
+   ScrollPane for settings
+   ======================= */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 1;                     /* always visible */
+    -fx-background-color: transparent;
+    -fx-width: 6px;                     /* thin scrollbar */
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(255,255,255,0.1);  /* faint line along edge */
+    -fx-background-radius: 3px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255,255,255,0.6);  /* visible thumb */
+    -fx-background-radius: 3px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255,255,255,0.9);
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: rgba(255,255,255,1);
+}
+/* Theme buttons */
+.theme-button {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 12 25;
+    -fx-cursor: hand;
+}
+
+.theme-button:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-border-color: rgba(255,255,255,0.5);
+}
+
+/* Option buttons inside sections */
+.option-button {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-border-color: rgba(255,255,255,0.15);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+}
+
+.option-button:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-border-color: rgba(255,255,255,0.3);
+}
+
+/* Sections */
+.settings-section {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-spacing: 8;
+}
+
+
+/*COPY THESE FOR EACH SECTION OF THE CHANGE IN STYLE SHEET */
+
+
+
+
+/* Cyberpunk Theme */
+.settings-group {
+    -fx-background-color: rgba(0, 229, 255, 0.05);
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(0,229,255,0.25);
+    -fx-padding: 18;
+}
+
+.settings-title {
+    -fx-text-fill: #00e5ff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.7), 10, 0, 0, 0);
+}
+
+.settings-subtitle {
+    -fx-text-fill: rgba(224,255,255,0.7);
+    -fx-font-size: 13px;
+      -fx-text-fill: white;
+}
+
+.theme-dropdown {
+    -fx-background-color: rgba(0,229,255,0.08);
+    -fx-border-color: rgba(0,229,255,0.6);
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-text-fill: #e0ffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+}
+.theme-dropdown .label {
+    -fx-text-fill: #00e5ff; 
+    -fx-font-weight: bold;
+}
+.theme-dropdown:hover {
+    -fx-background-color: rgba(0,229,255,0.18);
+    -fx-border-color: rgba(0,229,255,0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.8), 14, 0, 0, 0);
+}
+
+.context-menu {
+    -fx-background-color: #08161f;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(0,229,255,0.7);
+    -fx-border-radius: 14;
+}
+
+.menu-item {
+    -fx-padding: 10 22;
+      -fx-text-fill: white;
+}
+
+.menu-item .label {
+    -fx-text-fill: #e0ffff;
+}
+
+.menu-item:hover, .menu-item:focused {
+    -fx-background-color: rgba(0,229,255,0.25);
+}
+
+/* CYBERPUNK BLUE SCROLLBAR */
+.scroll-pane, .virtualized-scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport, .virtualized-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical, .virtualized-scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 1;
+    -fx-background-color: rgba(0, 0, 0, 0.4); /* Darker track area */
+    -fx-width: 8px;
+}
+
+.scroll-pane .scroll-bar:vertical .track, .virtualized-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 255, 255, 0.05); /* Faint neon glow */
+    -fx-background-radius: 0px; /* Sharp edges look more "tech" */
+}
+
+.scroll-pane .scroll-bar:vertical .thumb, .virtualized-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #00ffff; /* Neon Cyan */
+    -fx-background-radius: 0px;
+    -fx-effect: dropshadow(three-pass-box, #00ffff, 5, 0, 0, 0);
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover, .virtualized-scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #80ffff; /* Brighter Cyan */
+    -fx-effect: dropshadow(three-pass-box, #00ffff, 10, 0, 0, 0);
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:pressed, .virtualized-scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #ffffff; 
+}

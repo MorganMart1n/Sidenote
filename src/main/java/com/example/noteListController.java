@@ -114,6 +114,15 @@ private final Path notesPath = Paths.get("src/main/java/com/example/Notes");
             e.printStackTrace();
         }
     }
+
+        public void noteSettings() {
+        try {
+      
+            App.setRoot("noteSettings");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     private boolean value = false;
     public void apearOnTop(ActionEvent event){

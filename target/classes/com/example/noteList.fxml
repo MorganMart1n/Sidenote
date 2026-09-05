@@ -12,10 +12,9 @@
       snapToPixel="true"
       minWidth="-Infinity" 
       minHeight="-Infinity"
+      styleClass="main"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
-      fx:controller="com.example.noteListController" 
-      stylesheets="@noteList.css" styleClass="main">
-
+      fx:controller="com.example.noteListController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="10" />
     </padding>
@@ -43,6 +42,14 @@
                         <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
                          <image>
                         <Image url="@images/lock.png" /> </image>
+                    </ImageView>
+                </graphic>
+        </Button>
+        <Button fx:id="" focusTraversable="false" onAction="#noteSettings" styleClass="icon-button">
+                <graphic>
+                        <ImageView fitHeight="22" fitWidth="22" preserveRatio="true" smooth="true">
+                         <image>
+                        <Image url="@images/cog.png" /> </image>
                     </ImageView>
                 </graphic>
         </Button>

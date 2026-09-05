@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<VBox fx:id="mainRoot" alignment="TOP_LEFT" spacing="10.0" styleClass="main" stylesheets="@noteList.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.noteViewController">
+<VBox fx:id="mainRoot" alignment="TOP_LEFT" spacing="10.0" styleClass="main" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.noteViewController">
     
     <padding>
         <Insets bottom="20" left="20" right="20" top="10" />

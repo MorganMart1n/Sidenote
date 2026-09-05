@@ -8,22 +8,27 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class App extends Application {
+
     private static Scene scene;
+    private static String currentTheme = "/com/example/css/Default.css"; // default theme
+    private static Map<String, Parent> screenCache = new HashMap<>();
+
     @Override
     public void start(Stage stage) throws IOException {
-        
+        Parent root = loadFXML("noteList");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/example/noteList.fxml"));
-        Parent root = fxmlLoader.load();
         stage.initStyle(StageStyle.TRANSPARENT);
         scene = new Scene(root, 640, 480); 
         scene.setFill(Color.TRANSPARENT);
-        
+
+        applyTheme();  // apply default theme
+
         stage.setMinWidth(400);
         stage.setMinHeight(500);
         stage.setScene(scene);
@@ -31,28 +36,46 @@ public class App extends Application {
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    /** Change theme from anywhere */
+    public static void changeTheme(String themePath) {
+        currentTheme = themePath;
+        applyTheme();
+    }
+
+    /** Apply current theme to scene */
+    private static void applyTheme() {
         if (scene != null) {
-            scene.setRoot(loadFXML(fxml));
-        } else {
-            System.err.println("Scene was not initialized");
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(App.class.getResource(currentTheme).toExternalForm());
+            
         }
     }
-
+    public static String getThemeDisplayName() {
+        switch (currentTheme) {
+            case "/com/example/css/CyberpunkBlue.css":
+                return "Cyberpunk Blue";
+            case "/com/example/css/CyberpunkRed.css":
+                return "Cyberpunk Red";
+            case "/com/example/css/Default.css":
+            default:
+                return "Default";
+        }
+    }
+    /** Load FXML without setting */
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        return loader.load();
     }
 
-    public static void setRootWithNote(String fxml, String noteName) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
-        noteViewController controller = fxmlLoader.getController();
-        controller.findAndLoad(noteName);
+    /** Set root and ensure theme applies */
+    public static void setRoot(String fxml) throws IOException {
+        Parent root = loadFXML(fxml);
         if (scene != null) {
             scene.setRoot(root);
+            applyTheme(); // reapply theme after switching pages
         }
     }
+
     public static void main(String[] args) {
         launch();
     }
